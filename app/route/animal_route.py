@@ -4,12 +4,6 @@ from ..models.animal import Animal
 
 animal_blueprint = Blueprint('animal_endpoint', __name__)
 
-from flask import Blueprint, jsonify, request
-from app.utils.database import db
-from app.models.animal import Animal
-
-animal_blueprint = Blueprint('animal_endpoint', __name__)
-
 @animal_blueprint.route("/", methods=["GET"])
 def get_animals():
     try:
@@ -56,3 +50,20 @@ def delete_animal(animal_id):
         return 'Delete successful', 200
     except Exception as e:
         return str(e), 500
+    
+@animal_blueprint.route('/animals', methods=["POST"])
+def create_animal():
+    try:
+        data = request.json
+        new_animal = Animal(
+            name=data.get("name"),
+            gender=data.get("gender"),
+            age=data.get("age"),
+            diet=data.get("diet")
+        )
+        db.session.add(new_animal)
+        db.session.commit()
+        return 'animal created'
+    except Exception as e:
+        return str(e), 500
+

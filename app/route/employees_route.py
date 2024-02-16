@@ -1,5 +1,5 @@
-from flask import Blueprint, jsonify, request
 from ..utils.database import db
+from flask import Blueprint, jsonify, request
 from ..models.employees import Employee
 
 employee_blueprint = Blueprint('employee_endpoint', __name__)
@@ -47,5 +47,23 @@ def delete_employee(employee_id):
         db.session.commit()
 
         return 'Delete successful', 200
+    except Exception as e:
+        return str(e), 500
+    
+@employee_blueprint.route('/employee', methods=["POST"])
+def create_employee():
+    try:
+        data = request.json
+        new_employee = Employee(
+            name=data.get('name'),
+            phone=data.get('phone'),
+            gender=data.get('gender'),
+            birthday=data.get('birthday'), 
+            shift=data.get('shift')
+        )
+
+        db.session.add(new_employee)
+        db.session.commit()
+        return 'Employee created successfully', 201
     except Exception as e:
         return str(e), 500

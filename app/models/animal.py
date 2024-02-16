@@ -1,4 +1,4 @@
-from utils.database import db
+from ..utils.database import db
 
 class Animal(db.Model):
    id = db.Column(db.Integer, primary_key=True)

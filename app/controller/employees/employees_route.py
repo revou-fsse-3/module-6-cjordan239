@@ -1,17 +1,24 @@
-from ..utils.database import db
+from ...utils.database import db
 from flask import Blueprint, jsonify, request
-from ..models.employees import Employee
+from ...models.employees import Employee
+from ...utils.api_response import api_response
+from ...services import employees_services
 
 employee_blueprint = Blueprint('employee_endpoint', __name__)
 
-@employee_blueprint.route("/employee", methods=["GET"])
+@employee_blueprint.route("/", methods=["GET"])
 def get_employees():
     try:
-        employees = Employee.query.all()
-        employee_dicts = [employee.as_dict() for employee in employees]
-        return jsonify(employee_dicts), 200
+        employees = employees_services.get_employee()
+        
+        return api_response(
+            status_code=200,
+            message="succes",
+            data=[employee.as_dict() for employee in employees]
+        )
+    
     except Exception as e:
-        return jsonify({'error': 'Something went wrong'}), 500
+        return str(e), 500
 
 @employee_blueprint.route("/<int:employee_id>", methods=["PUT"])
 def update_employee(employee_id):
@@ -49,7 +56,7 @@ def delete_employee(employee_id):
     except Exception as e:
         return str(e), 500
     
-@employee_blueprint.route('/employee', methods=["POST"])
+@employee_blueprint.route('/', methods=["POST"])
 def create_employee():
     try:
         data = request.json

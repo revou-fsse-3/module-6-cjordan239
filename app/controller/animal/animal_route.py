@@ -1,16 +1,25 @@
 from flask import Blueprint, jsonify, request
-from ..utils.database import db
-from ..models.animal import Animal
+from ...utils.database import db
+from ...models.animal import Animal
+from ...utils.api_response import api_response
+from ...services import animals_services
+
 
 animal_blueprint = Blueprint('animal_endpoint', __name__)
 
-@animal_blueprint.route("/animals", methods=["GET"])
-def get_animals(animal_id):
+@animal_blueprint.route("/", methods=["GET", "POST"])
+def get_list_animals():
     try:
-        animals = Animal.query.all(animal_id)
-        return [animal.as_dict() for animal in animals], 200  
+        animals = animals_services.get_animal()
+        
+        return api_response(
+            status_code=200,
+            message="succes",
+            data=[animal.as_dict() for animal in animals]
+        )
+    
     except Exception as e:
-        return e({'error': 'Something went wrong'}), 500
+        return str(e), 500
 
 @animal_blueprint.route("/<int:animal_id>", methods=["PUT"])
 def update_animal(animal_id):

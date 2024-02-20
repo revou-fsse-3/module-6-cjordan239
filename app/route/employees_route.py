@@ -4,7 +4,7 @@ from ..models.employees import Employee
 
 employee_blueprint = Blueprint('employee_endpoint', __name__)
 
-@employee_blueprint.route("/", methods=["GET"])
+@employee_blueprint.route("/employee", methods=["GET"])
 def get_employees():
     try:
         employees = Employee.query.all()
@@ -22,7 +22,6 @@ def update_employee(employee_id):
             return "Employee not found", 404
 
         data = request.json
-
         employee.name = data.get("name", employee.name)
         employee.phone = data.get("phone", employee.phone)
         employee.gender = data.get("gender", employee.gender)
@@ -54,14 +53,12 @@ def delete_employee(employee_id):
 def create_employee():
     try:
         data = request.json
-        new_employee = Employee(
-            name=data.get('name'),
-            phone=data.get('phone'),
-            gender=data.get('gender'),
-            birthday=data.get('birthday'), 
-            shift=data.get('shift')
-        )
-
+        new_employee = Employee()
+        new_employee.name = data["name"]
+        new_employee.phone = data["phone"]
+        new_employee.gender = data["gender"]
+        new_employee.birthday = data["birthday"]
+        new_employee.shift = data["shift"]
         db.session.add(new_employee)
         db.session.commit()
         return 'Employee created successfully', 201

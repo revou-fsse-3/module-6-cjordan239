@@ -16,5 +16,5 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f"{DATABASE_TYPE}://{DATABASE_USER}:{DAT
 
 db.init_app(app)
 
-app.register_blueprint(animal_route.animal_blueprint, url_prefix='/animals')
-app.register_blueprint(employees_route.employee_blueprint, url_prefix='/employee')
+app.register_blueprint(animal_route.animal_blueprint, url_prefix="/animals")
+app.register_blueprint(employees_route.employee_blueprint, url_prefix="/employee")

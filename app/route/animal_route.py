@@ -5,9 +5,9 @@ from ..models.animal import Animal
 animal_blueprint = Blueprint('animal_endpoint', __name__)
 
 @animal_blueprint.route("/animals", methods=["GET"])
-def get_animals():
+def get_animals(animal_id):
     try:
-        animals = Animal.query.all()
+        animals = Animal.query.all(animal_id)
         return [animal.as_dict() for animal in animals], 200  
     except Exception as e:
         return e({'error': 'Something went wrong'}), 500
@@ -48,7 +48,7 @@ def delete_animal(animal_id):
     except Exception as e:
         return str(e), 500
 
-@animal_blueprint.route('/animals', methods=["POST"])
+@animal_blueprint.route('/', methods=["POST"])
 def create_animal():
     try: 
         data = request.json

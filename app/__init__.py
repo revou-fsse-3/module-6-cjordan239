@@ -3,7 +3,6 @@ import os
 from app.route import animal_route, employees_route
 from app.utils.database import db
 
-
 app = Flask(__name__)
 
 DATABASE_TYPE = os.getenv('DATABASE_TYPE')

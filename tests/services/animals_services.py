@@ -1,8 +1,7 @@
-from ...app.models.animal import Animal
-from ...app.controller.animal import animal_route
-from ...app.repositories import animals_repo
-from ...app.services import animals_services
-from ...app.controller.schema.create_animal_request import Create_animal_request
+from app.models.animal import Animal
+from app.repositories import animals_repo
+from app.services import animals_services
+from app.controller.schema.create_animal_request import Create_animal_request
 
 
 
@@ -22,11 +21,12 @@ def test_get_list_animmal_success(test_app, mocker):
          age=5, 
          gender='laki laki',
          diet="herbivore"),
-      Animal(id=3, 
-             name='mika', 
-             age=16, 
-             gender='laki laki', 
-             diet="carnivore"),
+      Animal(
+         id=3,   
+         name='mika', 
+         age=16, 
+         gender='laki laki', 
+         diet="carnivore"),
       
    ]
    mocker.patch.object(animals_repo, 'get_list_animals',
@@ -34,7 +34,7 @@ def test_get_list_animmal_success(test_app, mocker):
    
    # Act
    with test_app.test_request_context():
-      animal_service = animals_services().get_customers()
+      animal_service = animals_services().get_animal()
 
    # Assert
    assert len(animal_service) == 2

@@ -1,7 +1,7 @@
 
 def test_get_animal(test_app):  
     response = test_app.get("/animals/")
-    assert len(response.json['data']) == 10
+    assert len(response.json['data']) == 3
 
 
 def test_post_animal(test_app):

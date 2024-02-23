@@ -3,7 +3,7 @@ from ...utils.database import db
 from ...models.animal import Animal
 from ...utils.api_response import api_response
 from ...services import animals_services
-
+from ..schema.create_animal_request import Create_animal_request
 
 animal_blueprint = Blueprint('animal_endpoint', __name__)
 
@@ -64,6 +64,8 @@ def delete_animal(animal_id):
 def create_animal():
     try: 
         data = request.json
+        create_animal_request = Create_animal_request(**data)
+        print(create_animal_request)
         created_animal = animals_services.post_animal(data)
         return api_response(
             status_code=200,

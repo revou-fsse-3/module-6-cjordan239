@@ -6,7 +6,7 @@ def get_list_animals():
     animals = Animal.query.all()
     return animals
 
-def post_list_animals(data):
+def create_animals(data):
     new_animal = Animal(
         name=data["name"],
         gender=data["gender"],

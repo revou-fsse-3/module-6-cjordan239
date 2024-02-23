@@ -5,5 +5,5 @@ def get_animal():
     return animals
 
 def post_animal(data):
-    created_animal = animals_repo.post_list_animals(data)
+    created_animal = animals_repo.create_animals(data)
     return created_animal

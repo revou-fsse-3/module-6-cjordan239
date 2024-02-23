@@ -7,7 +7,7 @@ from ...services import animals_services
 
 animal_blueprint = Blueprint('animal_endpoint', __name__)
 
-@animal_blueprint.route("/", methods=["GET", "POST"])
+@animal_blueprint.route("/", methods=["GET"])
 def get_list_animals():
     try:
         animals = animals_services.get_animal()
@@ -30,6 +30,9 @@ def update_animal(animal_id):
             return "Animal not found", 404
 
         data = request.json
+
+        if not data:
+            return "data not found", 400
 
         animal.name = data.get("name", animal.name)
         animal.gender = data.get("gender", animal.gender)
@@ -61,15 +64,12 @@ def delete_animal(animal_id):
 def create_animal():
     try: 
         data = request.json
-        new_animal = Animal()
-        print(data)
-        new_animal.name = data["name"]
-        new_animal.gender = data["gender"]
-        new_animal.age = data["age"]
-        new_animal.diet = data["diet"]
-        db.session.add(new_animal)
-        db.session.commit()
-        return "Animal created", 200
+        created_animal = animals_services.post_animal(data)
+        return api_response(
+            status_code=200,
+            message="animal created",
+            data=created_animal.as_dict()
+        )
     except Exception as e:
         return str(e), 500
 

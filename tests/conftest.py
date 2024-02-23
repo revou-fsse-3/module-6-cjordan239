@@ -2,7 +2,7 @@ import pytest
 from app import app
 
 
-@pytest
+@pytest.fixture
 def test_app():
     app .config['TESTING'] = True
 

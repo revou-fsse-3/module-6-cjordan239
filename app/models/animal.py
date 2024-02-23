@@ -9,10 +9,10 @@ class Animal(db.Model):
    diet = db.Column(db.String(100), nullable=False)
 
    def as_dict(self):
-         return {
-                  "id": self.id,
-                  "name": self.name,
-                  "gender": self.gender,
-                  "age": self.age,
-                  "diet": self.diet
-               }
+       return {
+           "id": self.id,
+           "name": self.name,
+           "gender": self.gender,
+           "age": self.age,
+           "diet": self.diet
+       }
